@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres-source:
+    image: postgres:15
+    container_name: postgres_kaynak
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: ecommerce
+    ports:
+      - "5433:5432" 
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  n8n-tool:
+    image: n8nio/n8n:latest
+    container_name: n8n_otomasyon
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - postgres-source
+
+volumes:
+  pg_data:
+  n8n_data:
